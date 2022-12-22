@@ -11,5 +11,7 @@ urlpatterns = [
     path('about/', views.about, name='about'),
 
     # writ path to view all pups
-    path('pups/', views.pup_index, name='index')
+    path('pups/', views.pups_index, name='index'),
+
+    path('pups/<int:pup_id>/', views.pups_detail, name='detail'),
 ]

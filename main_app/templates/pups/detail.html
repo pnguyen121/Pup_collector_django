@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Pup List</h1>
+<h1>Pup Details</h1>
 
-{% for pup in pups %}
   <div class="card">
-    <a href="/pups/{{ pup.id }}">
     <div class="card-body">
       <h3 class="card-title">{{ pup.name }}</h3>
       <p>Breed: {{ pup.breed }}</p>
@@ -16,8 +14,6 @@
         <p>Age: Puppy Puppy</p>
       {% endif %}
     </div>
-    </a>
   </div>
-{% endfor %}
 
 {% endblock %}
