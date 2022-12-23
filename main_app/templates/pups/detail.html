@@ -2,7 +2,8 @@
 {% block content %}
 
 <h1>Pup Details</h1>
-
+<div class="row">
+    <div class="col-sm-6">
   <div class="card">
     <div class="card-body">
       <h3 class="card-title">{{ pup.name }}</h3>
@@ -13,7 +14,44 @@
       {% else %}
         <p>Age: Puppy Puppy</p>
       {% endif %}
+
+      <div class="card-action">
+        <a class="btn btn-secondary" href="{% url 'pups_update' pup.id %}">Edit</a>
+        <a class="btn btn-danger" href="{% url 'pups_delete' pup.id %}">Delete</a>
+      </div>
     </div>
   </div>
+  </div>
+
+  <div class="col-sm-6">
+
+    <form method="post">
+        {% csrf_token %}
+        {{ feeding_form.as_p }}
+        <input type="submit" class="btn btn-primary" value="Add Feeding">
+      </form>
+
+    <table class="table-striped">
+      <thead>
+        <tr><th>Date</th><th>Meal</th></tr>
+      </thead>
+      <tbody>
+        {% for feeding in pup.feeding_set.all %}
+          <tr>
+            <td>{{feeding.date}}</td>
+            <td>{{feeding.get_meal_display}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
 
 {% endblock %}
+
+<script>
+    $('#id_date').datepicker({
+  inline: true
+});
+</script>
