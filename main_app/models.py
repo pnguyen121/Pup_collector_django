@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse
+from bootstrap_datepicker_plus.widgets import DatePickerInput
+
 
 
 # Create your models here.
@@ -42,3 +44,8 @@ class Feeding(models.Model):
   def __str__(self):
     # Nice method for obtaining the friendly value of a Field.choice
     return f"{self.get_meal_display()} on {self.date}"
+
+	# sorts it to show the most recent feeding by date
+  class Meta:
+    ordering = ['-date']
+

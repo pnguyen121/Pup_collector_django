@@ -25,4 +25,7 @@ urlpatterns = [
     # delete route
     path('pups/<int:pk>/delete/', views.PupDelete.as_view(), name='pups_delete'),
 
+    #path for the feeding form
+    path('pups/<int:pup_id>/add_feeding', views.add_feeding, name='add_feeding')
+
 ]

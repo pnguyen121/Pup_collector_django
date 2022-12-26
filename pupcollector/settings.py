@@ -31,6 +31,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # add bootstrap installed using terminal
+    'bootstrap4',
+    # date picker module form google
+    'bootstrap_datepicker_plus',
+    # our main app
     'main_app',
     'django.contrib.admin',
     'django.contrib.auth',

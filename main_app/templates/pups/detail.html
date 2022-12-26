@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %} -->
+{{ feeding_form.media }}
 {% block content %}
 
 <h1>Pup Details</h1>
@@ -24,14 +28,15 @@
   </div>
 
   <div class="col-sm-6">
-
-    <form method="post">
+    <form method="post" action="{% url 'add_feeding' pup.id %}">
         {% csrf_token %}
-        {{ feeding_form.as_p }}
-        <input type="submit" class="btn btn-primary" value="Add Feeding">
+        {% bootstrap_form feeding_form %}
+        {{ feeding_form.media }}
+        <!-- {{ feeding_form.media }} -->
+        <input type="submit" class="btn btn-primary mt-3" value="Add Feeding">
       </form>
 
-    <table class="table-striped">
+    <table class="table">
       <thead>
         <tr><th>Date</th><th>Meal</th></tr>
       </thead>
@@ -49,9 +54,3 @@
 </div>
 
 {% endblock %}
-
-<script>
-    $('#id_date').datepicker({
-  inline: true
-});
-</script>
