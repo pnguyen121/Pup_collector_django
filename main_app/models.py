@@ -2,16 +2,27 @@ from django.db import models
 from django.urls import reverse
 from bootstrap_datepicker_plus.widgets import DatePickerInput
 
-
-
 # Create your models here.
+# Toy model
+class Toy(models.Model):
+  name = models.CharField(max_length=50)
+  color = models.CharField(max_length=20)
+
+  def __str__(self):
+    return self.name
+
+  def get_absolute_url(self):
+    return reverse('toys_detail', kwargs={'pk': self.id})
+
+
 
 class Pup(models.Model):
     name = models.CharField(max_length=100)
     breed = models.CharField(max_length=100)
     description = models.TextField(max_length=250)
     age = models.IntegerField()
-
+    # Add the M:M relationship
+    toys = models.ManyToManyField(Toy)
 # Add a redirect after a form is submitted, make sure its intended to be undder the Pup model
     def get_absolute_url(self):
         return reverse('detail', kwargs={'pup_id': self.id})

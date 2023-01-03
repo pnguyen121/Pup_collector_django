@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 # import our CBV thing
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
+
 from django.http import HttpResponse
 # import in our model
-from .models import Pup
+from .models import Pup, Toy
 # import the feeding form
 from .forms import FeedingForm
 
@@ -59,9 +61,12 @@ def pups_index(request):
 
 def pups_detail(request, pup_id):
     pup = Pup.objects.get(id=pup_id)
+    # Get the toys the cat doesn't have
+    toys_cat_doesnt_have = Toy.objects.exclude(id__in = pup.toys.all().values_list('id'))
     # set the feeding form to
     feeding_form = FeedingForm()
-    return render(request, 'pups/detail.html', {'pup': pup, 'feeding_form': feeding_form})
+    return render(request, 'pups/detail.html', {'pup': pup, 'feeding_form': feeding_form, # Add the toys to be displayed
+    'toys': toys_cat_doesnt_have})
 
 
 def add_feeding(request, pup_id):
@@ -74,3 +79,29 @@ def add_feeding(request, pup_id):
         new_feeding.save()
         # alwaays redirect when changing the database and import redirect at the top
     return redirect('detail', pup_id=pup_id)
+
+
+class ToyList(ListView):
+  model = Toy
+
+class ToyDetail(DetailView):
+  model = Toy
+
+class ToyCreate(CreateView):
+  model = Toy
+  fields = '__all__'
+
+class ToyUpdate(UpdateView):
+  model = Toy
+  fields = ['name', 'color']
+
+class ToyDelete(DeleteView):
+  model = Toy
+  success_url = '/toys/'
+
+
+
+def assoc_toy(request, pup_id, toy_id):
+  # Note that you can pass a toy's id instead of the whole object
+  Pup.objects.get(id=pup_id).toys.add(toy_id)
+  return redirect('detail', pup_id=pup_id)
